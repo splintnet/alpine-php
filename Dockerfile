@@ -19,7 +19,7 @@ RUN set -xe \
     libc-dev \
     pcre-dev \
     libzip-dev \
-    libonig-dev \
+    oniguruma-dev \
     libxml2-dev \
     make \
     git \
