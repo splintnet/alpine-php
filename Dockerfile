@@ -4,54 +4,55 @@ LABEL maintainer="info@splintnet.de"
 # Install lib support
 RUN set -xe \
     && apk add --update \
-        icu \
+    icu \
     && apk add --no-cache --virtual .php-deps \
-        make \
+    make \
     && apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-	&& apk add --no-cache \
-        autoconf \
-		cmake \
-		file \
-		g++ \
-		gcc \
-		libtool \
-		libc-dev \
-		pcre-dev \
-		libzip-dev \
-		libxml2-dev \
-		make \
-		git \
-		shadow \
-		pkgconf \
-		re2c \
-		zip \
-		unzip \
-		curl \
-		# for GD and ImageMagic
-		jpeg-dev \
-		freetype-dev \
-		libpng-dev  \
-		libwebp-dev \
-		libjpeg-turbo-dev \
-		# for xslt
-		libxslt-dev \
-		# for intl extension
-		icu-dev \
-		openssl-dev \
-		zlib-dev \
-		icu-dev \
-		# for image optimization
-		jpegoptim \
-		optipng \
-		pngquant \
-		gifsicle \
-		# imagemagic
-		imagemagick \
-		imagemagick-libs \
-		imagemagick-dev \
-		# mysql
-		mariadb-client \
+    $PHPIZE_DEPS \
+    && apk add --no-cache \
+    autoconf \
+    cmake \
+    file \
+    g++ \
+    gcc \
+    libtool \
+    libc-dev \
+    pcre-dev \
+    libzip-dev \
+    libonig-dev \
+    libxml2-dev \
+    make \
+    git \
+    shadow \
+    pkgconf \
+    re2c \
+    zip \
+    unzip \
+    curl \
+    # for GD and ImageMagic
+    jpeg-dev \
+    freetype-dev \
+    libpng-dev  \
+    libwebp-dev \
+    libjpeg-turbo-dev \
+    # for xslt
+    libxslt-dev \
+    # for intl extension
+    icu-dev \
+    openssl-dev \
+    zlib-dev \
+    icu-dev \
+    # for image optimization
+    jpegoptim \
+    optipng \
+    pngquant \
+    gifsicle \
+    # imagemagic
+    imagemagick \
+    imagemagick-libs \
+    imagemagick-dev \
+    # mysql
+    mariadb-client \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl pdo_mysql mbstring exif pcntl zip soap calendar iconv \
     && docker-php-ext-enable intl \
@@ -59,9 +60,9 @@ RUN set -xe \
     && apk del .build-deps \
     && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
 
-RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.46.0/datadog-php-tracer_0.46.0_noarch.apk && \
-    apk add datadog-php-tracer_0.46.0_noarch.apk --allow-untrusted && \
-    rm datadog-php-tracer_0.46.0_noarch.apk
+RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.47.1/datadog-php-tracer_0.47.1_noarch.apk && \
+    apk add datadog-php-tracer_0.47.1_noarch.apk --allow-untrusted && \
+    rm datadog-php-tracer_0.47.1_noarch.apk
 
 # Installing extensions
 RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ --with-webp-dir=/usr/include/ \
@@ -75,8 +76,8 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 # Installing composer
 RUN curl -sS https://getcomposer.org/installer | php \
-        && mv composer.phar /usr/local/bin/ \
-        && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
+    && mv composer.phar /usr/local/bin/ \
+    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # Set Composer Env to allow for root user installs
 ENV COMPOSER_ALLOW_SUPERUSER=1
