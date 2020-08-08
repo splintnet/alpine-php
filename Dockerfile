@@ -1,88 +1,56 @@
 FROM php:7.4-fpm-alpine
 LABEL maintainer="info@splintnet.de"
 
-# Install lib support
-RUN set -xe \
-    && apk add --update \
-    icu \
-    && apk add --no-cache --virtual .php-deps \
-    make \
-    && apk add --no-cache --virtual .build-deps \
-    $PHPIZE_DEPS \
-    && apk add --no-cache \
-    autoconf \
-    cmake \
-    file \
-    g++ \
-    gcc \
-    libtool \
-    libc-dev \
-    pcre-dev \
-    libzip-dev \
-    oniguruma-dev \
-    libxml2-dev \
-    make \
-    git \
-    shadow \
-    pkgconf \
-    re2c \
-    zip \
-    unzip \
-    curl \
-    # for GD and ImageMagic
-    jpeg-dev \
-    freetype-dev \
-    libpng-dev  \
-    libwebp-dev \
-    libjpeg-turbo-dev \
-    # for xslt
-    libxslt-dev \
-    # for intl extension
-    icu-dev \
-    openssl-dev \
-    zlib-dev \
-    icu-dev \
-    # for image optimization
-    jpegoptim \
-    optipng \
-    pngquant \
-    gifsicle \
-    # imagemagic
-    imagemagick \
-    imagemagick-libs \
-    imagemagick-dev \
-    # mysql
-    mariadb-client \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install intl pdo_mysql mbstring exif pcntl zip soap calendar iconv \
-    && docker-php-ext-enable intl \
-    && { find /usr/local/lib -type f -print0 | xargs -0r strip --strip-all -p 2>/dev/null || true; } \
-    && apk del .build-deps \
-    && rm -rf /tmp/* /usr/local/lib/php/doc/* /var/cache/apk/*
+# Download script to install PHP extensions and dependencies
+ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 
+RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
+
+RUN apk add --no-cache \
+    curl \
+    git \
+    zip unzip \
+    && install-php-extensions \
+    bcmath \
+    bz2 \
+    calendar \
+    exif \
+    gd \
+    imagick \
+    intl \
+    apcu \
+    pcntl \
+    iconv \
+    ldap \
+    memcached \
+    mysqli \
+    opcache \
+    pdo_mysql \
+    pdo_pgsql \
+    pgsql \
+    redis \
+    soap \
+    xsl \
+    zip \
+    sockets
+
+# DataDog PHP Tracer
 RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.47.1/datadog-php-tracer_0.47.1_noarch.apk && \
     apk add datadog-php-tracer_0.47.1_noarch.apk --allow-untrusted && \
     rm datadog-php-tracer_0.47.1_noarch.apk
 
-# Installing extensions
-RUN docker-php-ext-configure gd --enable-gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ --with-webp=/usr/include/ \
-    && docker-php-ext-configure zip --with-zip \
-    && docker-php-ext-install gd zip opcache \
-    && pecl install redis imagick apcu \
-    && docker-php-ext-enable imagick redis apcu
-
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted gnu-libiconv
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
-
-# Installing composer
-RUN curl -sS https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/ \
-    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
-
-# Set Composer Env to allow for root user installs
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
 # PHP config
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
+# Install Composer.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && ln -s $(composer config --global home) /root/composer
+ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
+
+# Install prestissimo (composer plugin). Plugin that downloads packages in parallel to speed up the installation process
+# After release of Composer 2.x, remove prestissimo, because parallelism already merged into Composer 2.x branch:
+# https://github.com/composer/composer/pull/7904
+RUN composer global require hirak/prestissimo
+
+# Workdir
 WORKDIR /application
