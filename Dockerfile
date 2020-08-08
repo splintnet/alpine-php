@@ -65,8 +65,8 @@ RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.47.1/
     rm datadog-php-tracer_0.47.1_noarch.apk
 
 # Installing extensions
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ --with-webp-dir=/usr/include/ \
-    && docker-php-ext-configure zip --with-libzip \
+RUN docker-php-ext-configure gd --enable-gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ --with-webp=/usr/include/ \
+    && docker-php-ext-configure zip --with-zip \
     && docker-php-ext-install gd zip opcache \
     && pecl install redis imagick apcu \
     && docker-php-ext-enable imagick redis apcu
