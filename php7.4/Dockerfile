@@ -40,7 +40,7 @@ RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.47.1/
     rm datadog-php-tracer_0.47.1_noarch.apk
 
 # PHP config
-COPY ../php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
