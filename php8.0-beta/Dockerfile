@@ -9,7 +9,7 @@ RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
 # Install PECL until its included in php8 package
 RUN apk add --update \
     $PHPIZE_DEPS \
-    && && rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/*
 
 RUN apk add --no-cache \
     curl \
@@ -24,7 +24,7 @@ RUN apk add --no-cache \
     imagick \
     intl \
     apcu \
-    pcn\
+    pcntl \
     iconv \
     ldap \
     memcached \
