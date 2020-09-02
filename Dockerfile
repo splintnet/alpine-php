@@ -10,6 +10,7 @@ RUN apk add --no-cache \
     curl \
     git \
     zip unzip \
+    mysql-client \
     && install-php-extensions \
     bcmath \
     bz2 \
