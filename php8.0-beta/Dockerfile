@@ -1,4 +1,4 @@
-FROM php:8.0.0beta1-fpm-alpine
+FROM php:8.0-rc-fpm-alpine
 LABEL maintainer="info@splintnet.de"
 
 # Download script to install PHP extensions and dependencies
@@ -21,7 +21,7 @@ RUN apk add --no-cache \
     calendar \
     exif \
     gd \
-    imagick \
+    # imagick \
     intl \
     apcu \
     pcntl \
@@ -40,9 +40,9 @@ RUN apk add --no-cache \
     sockets
 
 # DataDog PHP Tracer
-RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.47.1/datadog-php-tracer_0.47.1_noarch.apk && \
-    apk add datadog-php-tracer_0.47.1_noarch.apk --allow-untrusted && \
-    rm datadog-php-tracer_0.47.1_noarch.apk
+RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.49.0/datadog-php-tracer_0.49.0_noarch.apk && \
+    apk add datadog-php-tracer_0.49.0_noarch.apk --allow-untrusted && \
+    rm datadog-php-tracer_0.49.0_noarch.apk
 
 # PHP config
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
