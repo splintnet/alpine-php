@@ -45,7 +45,8 @@ RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.54.0/
     rm datadog-php-tracer_0.54.0_noarch.apk
 
 # fix work iconv library with alphine
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted gnu-libiconv
+RUN wget http://dl-cdn.alpinelinux.org/alpine/v3.10/community/x86_64/gnu-libiconv-1.15-r2.apk && apk add --allow-untrusted gnu-libiconv-1.15-r2.apk
+# RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # PHP config
