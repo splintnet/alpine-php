@@ -24,8 +24,8 @@ An automated build is set up, so they should be always up-to-date with the Docke
 
 ## Available tags and `Dockerfile` links
 - [`latest` (_Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/Dockerfile)
-- [`7.3` (_7.3/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/7.3/Dockerfile)
 - [`7.4` (_7.4/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/7.4/Dockerfile)
+- [`8.0` (_8.0/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.0/Dockerfile)
 
 As you might have guessed, all tags are built on top of the corresponding tag of the official image. Not all tags are supported in order to easen manteinance.
 
@@ -62,7 +62,6 @@ You will probably not need all this stuff. Even if having some extra extensions 
 
 ## Composer
 [Composer](https://getcomposer.org) is installed globally in all images. Please, refer to their documentation for usage hints.
-[Prestissimo (composer plugin)](https://github.com/hirak/prestissimo) is installed globally in all images. Plugin that downloads packages in parallel to speed up the installation process of Composer packages.
 
 
 ## Contributing
