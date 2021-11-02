@@ -28,13 +28,15 @@ jobs:
         name: PHP 7.4 Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./php7.4
+          context: ./
+          file: php7.4/Dockerfile
           push: true
           tags: splintnet/alpine-php:latest,splintnet/alpine-php:php7.4
       -
         name: PHP 8.0 Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./php8.0
+          context: ./
+          file: php8.0/Dockerfile
           push: true
           tags: splintnet/alpine-php:php8.0
