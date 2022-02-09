@@ -36,9 +36,9 @@ RUN apk add --no-cache \
     sockets
 
 # DataDog PHP Tracer
-RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.67.0/datadog-php-tracer_0.67.0_noarch.apk && \
-    apk add datadog-php-tracer_0.67.0_noarch.apk --allow-untrusted && \
-    rm datadog-php-tracer_0.67.0_noarch.apk
+RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.70.0/datadog-php-tracer_0.70.0_noarch.apk && \
+    apk add datadog-php-tracer_0.70.0_noarch.apk --allow-untrusted && \
+    rm datadog-php-tracer_0.70.0_noarch.apk
 
 # fix work iconv library with alphine
 RUN wget http://dl-cdn.alpinelinux.org/alpine/v3.10/community/x86_64/gnu-libiconv-1.15-r2.apk && apk add --allow-untrusted gnu-libiconv-1.15-r2.apk
