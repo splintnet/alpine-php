@@ -26,6 +26,7 @@ An automated build is set up, so they should be always up-to-date with the Docke
 - [`latest` (_Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/Dockerfile)
 - [`7.4` (_7.4/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/7.4/Dockerfile)
 - [`8.0` (_8.0/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.0/Dockerfile)
+- [`8.1` (_8.1/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.1/Dockerfile)
 
 As you might have guessed, all tags are built on top of the corresponding tag of the official image. Not all tags are supported in order to easen manteinance.
 
