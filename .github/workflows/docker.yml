@@ -29,21 +29,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: PHP 7.4 Build and push
+      - name: PHP 8.2 Build and push
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: php7.4/Dockerfile
+          file: php8.2/Dockerfile
           push: true
-          tags: splintnet/alpine-php:php7.4
-
-      - name: PHP 8.0 Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: php8.0/Dockerfile
-          push: true
-          tags: splintnet/alpine-php:php8.0
+          tags: splintnet/alpine-php:latest,splintnet/alpine-php:php8.2
 
       - name: PHP 8.1 Build and push
         uses: docker/build-push-action@v2
@@ -53,10 +45,18 @@ jobs:
           push: true
           tags: splintnet/alpine-php:php8.1
 
-      - name: PHP 8.2 Build and push
+      - name: PHP 8.0 Build and push
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: php8.2/Dockerfile
+          file: php8.0/Dockerfile
           push: true
-          tags: splintnet/alpine-php:latest,splintnet/alpine-php:php8.2
+          tags: splintnet/alpine-php:php8.0
+
+      - name: PHP 7.4 Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: php7.4/Dockerfile
+          push: true
+          tags: splintnet/alpine-php:php7.4
