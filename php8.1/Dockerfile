@@ -7,6 +7,7 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
 
 RUN apk add --no-cache \
+    bash \
     curl \
     git \
     zip unzip \
