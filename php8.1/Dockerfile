@@ -12,6 +12,8 @@ RUN apk add --no-cache \
     git \
     zip unzip \
     mysql-client \
+    supercronic \
+    shadow \
     && install-php-extensions \
     bcmath \
     bz2 \
@@ -48,6 +50,9 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # PHP config
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+
+# Bootstrap scripts for apps
+COPY starters /opt/starters
 
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
