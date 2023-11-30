@@ -51,6 +51,12 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 # PHP config
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
+# Bootstrap scripts for apps
+COPY starters /opt/starters
+
+# Make the startup script executable
+RUN chmod -R u+x /opt/starters && chown -R www-data:www-data /opt/starters
+
 # Install Composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && ln -s $(composer config --global home) /root/composer
