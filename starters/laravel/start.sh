@@ -13,7 +13,7 @@ echo "Starting with role $role"
 if [ "$role" = "app" ]; then
     exec /usr/local/sbin/php-fpm
 elif [ "$role" = "scheduler" ]; then
-    exec /usr/bin/supercronic /opt/starter/laravel/crontab
+    exec /usr/bin/supercronic /opt/starters/laravel/crontab
 elif [ "$role" = "worker" ]; then
     exec /usr/local/bin/php /application/artisan horizon
 else
