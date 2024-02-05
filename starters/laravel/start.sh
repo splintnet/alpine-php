@@ -14,8 +14,10 @@ if [ "$role" = "app" ]; then
     exec /usr/local/sbin/php-fpm
 elif [ "$role" = "scheduler" ]; then
     exec /usr/bin/supercronic /opt/starters/laravel/crontab
-elif [ "$role" = "worker" ]; then
+elif [ "$role" = "horizon" ]; then
     exec /usr/local/bin/php /application/artisan horizon
+elif [ "$role" = "worker" ]; then
+    exec /usr/local/bin/php /application/artisan queue:work redis --no-interaction --sleep=3 --tries=3
 else
     echo "Could not match the container role \"$role\""
     exit 1
