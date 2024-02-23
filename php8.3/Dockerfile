@@ -20,7 +20,7 @@ RUN apk add --no-cache \
     calendar \
     exif \
     gd \
-    imagick \
+    # imagick \
     intl \
     apcu \
     pcntl \
