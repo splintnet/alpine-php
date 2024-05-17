@@ -27,6 +27,8 @@ An automated build is set up, so they should be always up-to-date with the Docke
 - [`7.4` (_7.4/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/7.4/Dockerfile)
 - [`8.0` (_8.0/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.0/Dockerfile)
 - [`8.1` (_8.1/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.1/Dockerfile)
+- [`8.2` (_8.2/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.2/Dockerfile)
+- [`8.3` (_8.3/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.3/Dockerfile)
 
 As you might have guessed, all tags are built on top of the corresponding tag of the official image. Not all tags are supported in order to easen manteinance.
 
@@ -69,6 +71,14 @@ You will probably not need all this stuff. Even if having some extra extensions 
 If you find an issue, or have a special wish not yet fulfilled, please [open an issue on GitHub](https://github.com/splintnet/alpine-php/issues) providing as many details as you can (the more you are specific about your problem, the easier it is for us to fix it).
 
 Pull requests are welcome, too! 😁 Please, run `make build` and `make test` before attempting a pull request. Also, it would be nice if you could stick to the [best practices for writing Dockerfiles](https://docs.docker.com/articles/dockerfile_best-practices/).
+
+## Container Roles
+
+- app
+- worker
+- scheduler
+- horizon
+- reverb
 
 ---
 

@@ -18,6 +18,8 @@ elif [ "$role" = "horizon" ]; then
     exec /usr/local/bin/php /application/artisan horizon
 elif [ "$role" = "worker" ]; then
     exec /usr/local/bin/php /application/artisan queue:work redis --no-interaction --sleep=3 --tries=3
+elif [ "$role" = "reverb" ]; then
+    exec /usr/local/bin/php /application/artisan reverb:start
 else
     echo "Could not match the container role \"$role\""
     exit 1
