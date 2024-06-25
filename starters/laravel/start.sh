@@ -17,7 +17,7 @@ elif [ "$role" = "scheduler" ]; then
 elif [ "$role" = "horizon" ]; then
     exec /usr/local/bin/php /application/artisan horizon
 elif [ "$role" = "worker" ]; then
-    exec /usr/local/bin/php /application/artisan queue:work redis --no-interaction --sleep=3 --tries=3
+    exec /usr/local/bin/php /application/artisan queue:work redis --no-interaction --sleep=3 --tries=3 --timeout=600
 elif [ "$role" = "reverb" ]; then
     exec /usr/local/bin/php /application/artisan reverb:start
 else
