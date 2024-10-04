@@ -37,7 +37,8 @@ RUN apk add --no-cache \
     xsl \
     zip \
     sockets \
-    grpc
+    grpc \
+    swoole
 
 # DataDog PHP Tracer
 # RUN curl -sSLO https://github.com/DataDog/dd-trace-php/releases/download/0.76.1/datadog-php-tracer_0.76.1_noarch.apk && \
