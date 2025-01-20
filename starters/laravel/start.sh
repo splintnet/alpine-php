@@ -3,7 +3,7 @@
 env=${APP_ENV:-production}
 
 if [ "$env" != "local" ]; then
-    (cd /application && php artisan cache:clear && php artisan config:cache && php artisan route:cache && php artisan view:cache)
+    (cd /application && php artisan config:cache && php artisan route:cache && php artisan view:cache)
 fi
 
 role=${CONTAINER_ROLE:-app}
