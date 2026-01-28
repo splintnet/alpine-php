@@ -29,6 +29,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: PHP 8.5 Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./
+          platforms: linux/amd64
+          file: php8.4/Dockerfile
+          push: true
+          tags: splintnet/alpine-php:latest,splintnet/alpine-php:php8.5
+
       - name: PHP 8.4 Build and push
         uses: docker/build-push-action@v6
         with:
@@ -36,7 +45,7 @@ jobs:
           platforms: linux/amd64
           file: php8.4/Dockerfile
           push: true
-          tags: splintnet/alpine-php:latest,splintnet/alpine-php:php8.4
+          tags: splintnet/alpine-php:php8.4
 
       - name: PHP 8.3 Build and push
         uses: docker/build-push-action@v6
