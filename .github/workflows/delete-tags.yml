@@ -1,0 +1,27 @@
+name: Docker-Hub-Tags löschen
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "Tags, durch Leerzeichen getrennt"
+        required: true
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tags löschen
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          jwt=$(curl -fsS -H 'Content-Type: application/json' \
+            -d "{\"username\":\"$DOCKERHUB_USERNAME\",\"password\":\"$DOCKERHUB_TOKEN\"}" \
+            https://hub.docker.com/v2/users/login/ | jq -r .token)
+          for t in ${{ inputs.tags }}; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -X DELETE -H "Authorization: JWT $jwt" \
+              "https://hub.docker.com/v2/repositories/splintnet/alpine-php/tags/$t/")
+            echo "$t: HTTP $code"
+            [ "$code" = 204 ] || exit 1
+          done
