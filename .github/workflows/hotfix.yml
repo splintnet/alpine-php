@@ -1,0 +1,69 @@
+name: Hotfix (Basis-Image selbst bauen)
+
+# Baut das offizielle php-Basis-Image aus docker-library/php selbst, wenn die
+# fertigen Images auf Docker Hub noch fehlen (z. B. CERT-EU 2026-018).
+on:
+  workflow_dispatch:
+    inputs:
+      upstream_ref:
+        description: "Commit in docker-library/php"
+        default: "f6048b5f6e3c2202ee082665a4ccc0d90de291a3"
+        required: true
+      alpine:
+        description: "Alpine-Variante"
+        default: "alpine3.24"
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: "8.5"
+            min: "8.5.12"
+            tags: "splintnet/alpine-php:latest splintnet/alpine-php:php8.5"
+          - php: "8.4"
+            min: "8.4.27"
+            tags: "splintnet/alpine-php:php8.4"
+          - php: "8.3"
+            min: "8.3.36"
+            tags: "splintnet/alpine-php:php8.3"
+          - php: "8.2"
+            min: "8.2.35"
+            tags: "splintnet/alpine-php:php8.2"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout docker-library/php
+        uses: actions/checkout@v4
+        with:
+          repository: docker-library/php
+          ref: ${{ inputs.upstream_ref }}
+          path: upstream
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Basis-Image bauen
+        run: docker build -t php:${{ matrix.php }}-fpm-alpine upstream/${{ matrix.php }}/${{ inputs.alpine }}/fpm
+
+      - name: Image bauen
+        run: docker build -f php${{ matrix.php }}/Dockerfile -t hotfix:${{ matrix.php }} .
+
+      - name: PHP-Version prüfen
+        run: |
+          docker run --rm hotfix:${{ matrix.php }} php -r 'echo PHP_VERSION, PHP_EOL; exit(version_compare(PHP_VERSION, "${{ matrix.min }}", "<") ? 1 : 0);'
+          docker run --rm hotfix:${{ matrix.php }} php -m > /dev/null
+
+      - name: Push
+        run: |
+          for t in ${{ matrix.tags }}; do
+            docker tag hotfix:${{ matrix.php }} "$t"
+            docker push "$t"
+          done
