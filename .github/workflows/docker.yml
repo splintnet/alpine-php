@@ -34,7 +34,7 @@ jobs:
         with:
           context: ./
           platforms: linux/amd64
-          file: php8.4/Dockerfile
+          file: php8.5/Dockerfile
           push: true
           tags: splintnet/alpine-php:latest,splintnet/alpine-php:php8.5
 
