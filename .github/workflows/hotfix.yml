@@ -13,6 +13,10 @@ on:
         description: "Alpine-Variante"
         default: "alpine3.24"
         required: true
+      versions:
+        description: "PHP-Versionen, durch Leerzeichen getrennt"
+        default: "8.5 8.4 8.3 8.2"
+        required: true
 
 jobs:
   build:
@@ -34,10 +38,16 @@ jobs:
             min: "8.2.35"
             tags: "splintnet/alpine-php:php8.2"
     steps:
+      - name: Auswahl prüfen
+        id: select
+        run: echo "build=${{ contains(format(' {0} ', inputs.versions), format(' {0} ', matrix.php)) }}" >> "$GITHUB_OUTPUT"
+
       - name: Checkout
+        if: steps.select.outputs.build == 'true'
         uses: actions/checkout@v4
 
       - name: Checkout docker-library/php
+        if: steps.select.outputs.build == 'true'
         uses: actions/checkout@v4
         with:
           repository: docker-library/php
@@ -45,23 +55,34 @@ jobs:
           path: upstream
 
       - name: Login to DockerHub
+        if: steps.select.outputs.build == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Basis-Image bauen
+        if: steps.select.outputs.build == 'true'
         run: docker build -t php:${{ matrix.php }}-fpm-alpine upstream/${{ matrix.php }}/${{ inputs.alpine }}/fpm
 
       - name: Image bauen
-        run: docker build -f php${{ matrix.php }}/Dockerfile -t hotfix:${{ matrix.php }} .
+        if: steps.select.outputs.build == 'true'
+        # PECL liefert bei hoher Last sporadisch HTTP 500
+        run: |
+          for i in 1 2 3 4 5; do
+            docker build -f php${{ matrix.php }}/Dockerfile -t hotfix:${{ matrix.php }} . && exit 0
+            echo "Versuch $i fehlgeschlagen, neuer Versuch in 60 s"; sleep 60
+          done
+          exit 1
 
       - name: PHP-Version prüfen
+        if: steps.select.outputs.build == 'true'
         run: |
           docker run --rm hotfix:${{ matrix.php }} php -r 'echo PHP_VERSION, PHP_EOL; exit(version_compare(PHP_VERSION, "${{ matrix.min }}", "<") ? 1 : 0);'
           docker run --rm hotfix:${{ matrix.php }} php -m > /dev/null
 
       - name: Push
+        if: steps.select.outputs.build == 'true'
         run: |
           for t in ${{ matrix.tags }}; do
             docker tag hotfix:${{ matrix.php }} "$t"
