@@ -24,12 +24,11 @@ An automated build is set up, so they should be always up-to-date with the Docke
 
 ## Available tags and `Dockerfile` links
 
-- [`latest` (_8.4/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.4/Dockerfile)
-- [`7.4` (_7.4/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/7.4/Dockerfile)
-- [`8.0` (_8.0/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.0/Dockerfile)
-- [`8.1` (_8.1/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.1/Dockerfile)
-- [`8.2` (_8.2/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.2/Dockerfile)
-- [`8.3` (_8.3/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/8.3/Dockerfile)
+- [`latest` (_php8.5/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/php8.5/Dockerfile)
+- [`php8.5` (_php8.5/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/php8.5/Dockerfile)
+- [`php8.4` (_php8.4/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/php8.4/Dockerfile)
+- [`php8.3` (_php8.3/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/php8.3/Dockerfile)
+- [`php8.2` (_php8.2/Dockerfile_)](https://github.com/splintnet/alpine-php/blob/master/php8.2/Dockerfile)
 
 As you might have guessed, all tags are built on top of the corresponding tag of the official image. Not all tags are supported in order to easen manteinance.
 
