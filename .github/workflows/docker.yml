@@ -55,12 +55,3 @@ jobs:
           file: php8.3/Dockerfile
           push: true
           tags: splintnet/alpine-php:php8.3
-
-      - name: PHP 8.2 Build and push
-        uses: docker/build-push-action@v6
-        with:
-          context: ./
-          platforms: linux/amd64
-          file: php8.2/Dockerfile
-          push: true
-          tags: splintnet/alpine-php:php8.2
